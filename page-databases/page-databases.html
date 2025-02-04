@@ -1,0 +1,25 @@
+<div>
+    <h3>All databases</h3>
+    <table class="basic_table">
+        <thead>
+            <tr>
+                <th>Nº</th>
+                <th>Database</th>
+                <th class="width_100">Version</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="database, databaseIndex in databases" v-bind:key="'database_id_' + database.name">
+                <td>
+                    {{ databaseIndex + 1 }}
+                </td>
+                <td>
+                    <a href="javascript:void(0)" v-on:click="() => openDatabase(database.name)">{{ database.name }}</a>
+                </td>
+                <td>
+                    {{ database.version }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

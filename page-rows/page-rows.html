@@ -1,0 +1,28 @@
+<div>
+    <h3>Rows of {{ args.database }}.{{ args.table }}</h3>
+    <lsw-database-breadcrumb :breadcrumb="breadcrumb" :database-explorer="databaseExplorer" />
+    <table class="basic_table">
+        <thead>
+            <tr>
+                <th>Nº</th>
+                <th>ID</th>
+                <th class="width_100">Item</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="row, rowIndex in rows" v-bind:key="'row_index_' + rowIndex">
+                <td>{{ rowIndex + 1 }}</td>
+                <td>
+                    <a href="javascript:void(0)" v-on:click="() => openRow(row.id)">
+                        #{{ row.id }}
+                    </a>
+                </td>
+                <td>
+                    <div v-for="prop, propIndex, propCounter in row" v-bind:key="'row_index_' + rowIndex + '_prop_' + propIndex">
+                        {{ propCounter + 1 }}. {{ propIndex }}: {{ prop }}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

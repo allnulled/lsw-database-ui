@@ -1,0 +1,35 @@
+<div>
+    <h3>Tables of {{ args.database }}</h3>
+    <lsw-database-breadcrumb :breadcrumb="breadcrumb" :database-explorer="databaseExplorer" />
+    <table class="basic_table">
+        <thead>
+            <tr>
+                <th>Nº</th>
+                <th>Table</th>
+                <th class="width_100">Columns</th>
+            </tr>
+        </thead>
+        <tbody v-if="tables">
+            <tr v-for="table, tableIndex, tableCounter in tables"
+                v-bind:key="'table_id_' + table.name">
+                <td>
+                    {{ tableCounter + 1 }}
+                </td>
+                <td>
+                    <a href="javascript:void(0)"
+                        v-on:click="() => openTable(tableIndex)">{{ tableIndex }}</a>
+                </td>
+                <td>
+                    <!--div>- keyPath: {{ table.keyPath }}</div-->
+                    <div v-if="table.autoIncrement">Is autoincrement</div>
+                    <div v-for="subprop, subpropIndex in table.indexes"
+                        v-bind:key="'table_' + table.name + '_index_' + subpropIndex">
+                        <div>
+                            {{ subpropIndex + 1 }}. {{ subprop.name }} ({{ [subprop.unique ? "unique" : false, subprop.multiEntry ? "multientry" : false].filter(it => !!it).join(", ") }})
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,24 @@
+<div>
+    <h3>Row on {{ args.database }}.{{ args.table }}#{{ args.rowid }}</h3>
+    <lsw-database-breadcrumb :breadcrumb="breadcrumb" :database-explorer="databaseExplorer" />
+    <table class="basic_table" v-if="row">
+        <thead>
+            <tr>
+                <th>Nº</th>
+                <th>Property</th>
+                <th class="width_100">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="prop, propIndex in row" v-bind:key="'prop_index_' + propIndex">
+                <td>{{ propIndex + 1 }}</td>
+                <td>
+                    {{ propIndex }}
+                </td>
+                <td>
+                    {{ prop }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
