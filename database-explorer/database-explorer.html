@@ -1,3 +1,5 @@
-<div>
-    <component :is="selectedPage" :args="selectedArgs" :database-explorer="this" />
+<div class="lsw_database_ui database_explorer">
+    <template v-if="!isLoading">
+        <component :is="selectedPage" :args="selectedArgs" :database-explorer="this" />
+    </template>
 </div>

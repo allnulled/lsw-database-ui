@@ -1,7 +1,15 @@
 <div>
-    <h3>Rows of {{ args.database }}.{{ args.table }}</h3>
+    <h3>Registros de {{ args.table }} [{{ args.database }}]</h3>
     <lsw-database-breadcrumb :breadcrumb="breadcrumb" :database-explorer="databaseExplorer" />
-    <table class="basic_table">
+    <lsw-table
+        :initial-input="rows" v-if="rows"
+        :initial-settings="{
+            title: 'Registros de ' + args.table,
+            columnsOrder: ['id'],
+        }"
+        :row-buttons="[{ header: '', text: '↗️', event: (row) => openRow(row.id) }]"
+        :table-buttons="[{ text: '#️⃣', event() { openRow(-1) }}]"></lsw-table>
+    <!--table class="basic_table top_aligned">
         <thead>
             <tr>
                 <th>Nº</th>
@@ -24,5 +32,5 @@
                 </td>
             </tr>
         </tbody>
-    </table>
+    </table-->
 </div>

@@ -1,24 +1,33 @@
 <div>
-    <h3>Row on {{ args.database }}.{{ args.table }}#{{ args.rowid }}</h3>
-    <lsw-database-breadcrumb :breadcrumb="breadcrumb" :database-explorer="databaseExplorer" />
-    <table class="basic_table" v-if="row">
-        <thead>
-            <tr>
-                <th>Nº</th>
-                <th>Property</th>
-                <th class="width_100">Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="prop, propIndex in row" v-bind:key="'prop_index_' + propIndex">
-                <td>{{ propIndex + 1 }}</td>
-                <td>
-                    {{ propIndex }}
-                </td>
-                <td>
-                    {{ prop }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <h3>
+        <span>
+            Registro de {{ args.table }}
+        </span>
+        <span v-if="(args.rowId && args.rowId !== -1)">
+            [#{{ args.rowId }}]
+        </span>
+        <span v-else-if="args.row && args.row.id">
+            [#{{ args.row.id }}]
+        </span>
+        <span v-else>
+            [new]
+        </span>
+        <span>
+            [{{ args.database }}]
+        </span>
+    </h3>
+    <lsw-database-breadcrumb :breadcrumb="breadcrumb"
+        :database-explorer="databaseExplorer" />
+    <div v-if="!isLoaded">Un momento, por favor, está cargando...</div>
+    <lsw-schema-based-form v-else
+        :on-submit="upsertRow"
+        :model="{
+            connection: $lsw.database,
+            databaseId: args.database,
+            tableId: args.table,
+            rowId: args.rowId,
+            row: row,
+            databaseExplorer,
+        }"
+        />
 </div>

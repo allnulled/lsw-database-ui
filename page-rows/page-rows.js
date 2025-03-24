@@ -11,18 +11,12 @@ Vue.component("LswPageRows", {
     },
   },
   data() {
-    if(typeof this.args.database !== "string") {
-      throw new Error("Required parameter «args.database» to be a string on «LswPageRows.data»");
-    }
-    if(typeof this.args.table !== "string") {
-      throw new Error("Required parameter «args.table» to be a string on «LswPageRows.data»");
-    }
+    this.$trace("lsw-page-rows.data", arguments);
+    $ensure(this.args).type("object");
+    $ensure(this.args.database).type("string");
+    $ensure(this.args.table).type("string");
     return {
       breadcrumb: [{
-        page: "LswPageDatabases",
-        name: "Databases",
-        args: {}
-      }, {
         page: "LswPageTables",
         name: this.args.database,
         args: {
@@ -45,22 +39,28 @@ Vue.component("LswPageRows", {
   },
   methods: {
     async loadRows() {
-      this.connection = new LswDatabaseAdapter(this.database);
+      this.$trace("lsw-page-rows.methods.loadRows", arguments);
+      this.connection = this.connection ?? new LswDatabaseAdapter(this.database);
       await this.connection.open();
-      this.rows = await this.connection.select(this.table, it => true);
+      const selection = await this.connection.select(this.table, it => true);
+      this.rows = selection;
+      return selection;
     },
-    openRow(rowid) {
+    openRow(rowId) {
+      this.$trace("lsw-page-rows.methods.openRow", arguments);
       return this.databaseExplorer.selectPage("LswPageRow", {
         database: this.database,
         table: this.table,
-        rowid: rowid
+        rowId: rowId
       });
     }
   },
   mounted() {
+    this.$trace("lsw-page-rows.mounted", arguments);
     this.loadRows();
   },
   unmounted() {
+    this.$trace("lsw-page-rows.unmounted", arguments);
     this.connection.close();
   }
 });

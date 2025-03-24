@@ -1,25 +1,9 @@
 <div>
-    <h3>All databases</h3>
-    <table class="basic_table">
-        <thead>
-            <tr>
-                <th>Nº</th>
-                <th>Database</th>
-                <th class="width_100">Version</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="database, databaseIndex in databases" v-bind:key="'database_id_' + database.name">
-                <td>
-                    {{ databaseIndex + 1 }}
-                </td>
-                <td>
-                    <a href="javascript:void(0)" v-on:click="() => openDatabase(database.name)">{{ database.name }}</a>
-                </td>
-                <td>
-                    {{ database.version }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <h3>Todas las bases de datos</h3>
+    <lsw-database-breadcrumb :breadcrumb="breadcrumb"
+        :database-explorer="databaseExplorer" />
+    <lsw-table v-if="databases && databases.length"
+        :initial-input="databases"
+        :initial-settings="{title: 'Lista de todas las bases de datos:', itemsPerPage: 50 }"
+        :row-buttons="[{ header: '', text: '↗️', event: (row) => openDatabase(row.name) }]"></lsw-table>
 </div>
