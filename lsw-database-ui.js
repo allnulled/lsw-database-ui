@@ -418,7 +418,7 @@ Vue.component("LswPageSchema", {
   }
 });
 Vue.component("LswPageTables", {
-  template: `<div>
+  template: `<div class="page_tables page">
     <h3>Tablas de {{ args.database }}</h3>
     <lsw-database-breadcrumb :breadcrumb="breadcrumb"
         :database-explorer="databaseExplorer" />

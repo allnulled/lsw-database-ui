@@ -21,5 +21,7 @@ table.top_aligned > tbody > tr > td {
 }
 
 
-
+.page_tables.page .lsw_table_itself > tbody > tr > td {
+    vertical-align: top !important;
+}
 
