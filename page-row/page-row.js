@@ -48,6 +48,13 @@ Vue.component("LswPageRow", {
     }
   },
   methods: {
+    goBack() {
+      this.$trace("lsw-page-row.methods.goBack", arguments);
+      return this.databaseExplorer.selectPage("LswPageRows", {
+        database: this.database,
+        table: this.table
+      });
+    },
     async loadRow() {
       this.$trace("lsw-page-row.methods.loadRow", arguments);
       try {

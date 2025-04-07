@@ -1,5 +1,11 @@
 <div>
-    <h3>Registros de {{ args.table }} [{{ args.database }}]</h3>
+    <h3>
+        <span>
+            <button v-on:click="goBack">⬅️</button>
+        </span>
+        <span>{{ args.table }} [all]</span>
+        <span>[{{ args.database }}]</span>
+    </h3>
     <lsw-database-breadcrumb :breadcrumb="breadcrumb" :database-explorer="databaseExplorer" />
     <lsw-table
         :initial-input="rows" v-if="rows"

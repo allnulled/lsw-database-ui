@@ -1,7 +1,10 @@
 <div>
     <h3>
         <span>
-            Registro de {{ args.table }}
+            <span>
+                <button v-on:click="goBack">⬅️</button>
+            </span>
+            <span>{{ args.table }}</span>
         </span>
         <span v-if="(args.rowId && args.rowId !== -1)">
             [#{{ args.rowId }}]

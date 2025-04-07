@@ -38,6 +38,12 @@ Vue.component("LswPageRows", {
     }
   },
   methods: {
+    goBack() {
+      this.$trace("lsw-page-rows.methods.goBack", arguments);
+      return this.databaseExplorer.selectPage("LswPageTables", {
+        database: this.database,
+      });
+    },
     async loadRows() {
       this.$trace("lsw-page-rows.methods.loadRows", arguments);
       this.connection = this.connection ?? new LswDatabaseAdapter(this.database);

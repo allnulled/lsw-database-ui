@@ -1,12 +1,25 @@
 Vue.component("LswDatabaseExplorer", {
   template: $template,
-  props: {},
+  props: {
+    showBreadcrumb: {
+      type: Boolean,
+      default: () => true
+    },
+    initialPage: {
+      type: String,
+      default: () => "lsw-page-tables"
+    },
+    initialArgs: {
+      type: Object,
+      default: () => ({ database: "lsw_default_database" })
+    }
+  },
   data() {
     this.$trace("lsw-database-explorer.data", arguments);
     return {
       isLoading: false,
-      selectedPage: "lsw-page-tables",
-      selectedArgs: { database: "lsw_default_database" },
+      selectedPage: this.initialPage,
+      selectedArgs: this.initialArgs,
     }
   },
   methods: {

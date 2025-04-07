@@ -11,18 +11,31 @@
   }
 })(function() {
 Vue.component("LswDatabaseExplorer", {
-  template: `<div class="lsw_database_ui database_explorer">
+  template: `<div class="lsw_database_ui database_explorer" :class="{hideBreadcrumb: !showBreadcrumb}">
     <template v-if="!isLoading">
         <component :is="selectedPage" :args="selectedArgs" :database-explorer="this" />
     </template>
 </div>`,
-  props: {},
+  props: {
+    showBreadcrumb: {
+      type: Boolean,
+      default: () => true
+    },
+    initialPage: {
+      type: String,
+      default: () => "lsw-page-tables"
+    },
+    initialArgs: {
+      type: Object,
+      default: () => ({ database: "lsw_default_database" })
+    }
+  },
   data() {
     this.$trace("lsw-database-explorer.data", arguments);
     return {
       isLoading: false,
-      selectedPage: "lsw-page-tables",
-      selectedArgs: { database: "lsw_default_database" },
+      selectedPage: this.initialPage,
+      selectedArgs: this.initialArgs,
     }
   },
   methods: {
@@ -157,7 +170,10 @@ Vue.component("LswPageRow", {
   template: `<div>
     <h3>
         <span>
-            Registro de {{ args.table }}
+            <span>
+                <button v-on:click="goBack">⬅️</button>
+            </span>
+            <span>{{ args.table }}</span>
         </span>
         <span v-if="(args.rowId && args.rowId !== -1)">
             [#{{ args.rowId }}]
@@ -235,6 +251,13 @@ Vue.component("LswPageRow", {
     }
   },
   methods: {
+    goBack() {
+      this.$trace("lsw-page-row.methods.goBack", arguments);
+      return this.databaseExplorer.selectPage("LswPageRows", {
+        database: this.database,
+        table: this.table
+      });
+    },
     async loadRow() {
       this.$trace("lsw-page-row.methods.loadRow", arguments);
       try {
@@ -295,7 +318,13 @@ Vue.component("LswPageRow", {
 });
 Vue.component("LswPageRows", {
   template: `<div>
-    <h3>Registros de {{ args.table }} [{{ args.database }}]</h3>
+    <h3>
+        <span>
+            <button v-on:click="goBack">⬅️</button>
+        </span>
+        <span>{{ args.table }} [all]</span>
+        <span>[{{ args.database }}]</span>
+    </h3>
     <lsw-database-breadcrumb :breadcrumb="breadcrumb" :database-explorer="databaseExplorer" />
     <lsw-table
         :initial-input="rows" v-if="rows"
@@ -368,6 +397,12 @@ Vue.component("LswPageRows", {
     }
   },
   methods: {
+    goBack() {
+      this.$trace("lsw-page-rows.methods.goBack", arguments);
+      return this.databaseExplorer.selectPage("LswPageTables", {
+        database: this.database,
+      });
+    },
     async loadRows() {
       this.$trace("lsw-page-rows.methods.loadRows", arguments);
       this.connection = this.connection ?? new LswDatabaseAdapter(this.database);
